@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import StartScreen from './Components/StartScreen/StartScreen';
-import Game from './Components/Game/Game';
+import AllQuestions from './Components/AllQuestions/AllQuestions';
 
 import './global.css';
 
 function App() {
   const [hasGameStarted, setHasGameStarted] = useState(false);
-  const [data, setData] = useState([]);
+  const [dataArr, setDataArr] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -31,7 +31,7 @@ function App() {
           allAnswers: [item.correct_answer, ...item.incorrect_answers],
         }));
 
-        setData(transformedData);
+        setDataArr(transformedData);
         setError(null);
       } catch (error) {
         setError(error.message);
@@ -48,7 +48,7 @@ function App() {
       {!hasGameStarted ? (
         <StartScreen onStartGame={() => setHasGameStarted(true)} />
       ) : (
-        <Game />
+        <AllQuestions dataArr={dataArr} />
       )}
     </main>
   );
