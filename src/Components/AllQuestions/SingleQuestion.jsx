@@ -1,12 +1,23 @@
 import React from 'react';
+import { decode } from 'html-entities';
+
+import classes from './SingleQuestion.module.css';
 
 function SingleQuestion({ question, answersArr }) {
   return (
     <article>
-      <h2>{question}</h2>
-      {answersArr.map((item) => (
-        <button key={item}>{item}</button>
-      ))}
+      <header>
+        <h2>{decode(question)}</h2>
+      </header>
+      <section>
+        <ul className={classes.ul}>
+          {answersArr.map((item) => (
+            <li key={item} className={classes.li}>
+              <button className={classes['answer-btn']}>{decode(item)}</button>
+            </li>
+          ))}
+        </ul>
+      </section>
     </article>
   );
 }

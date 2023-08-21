@@ -1,6 +1,7 @@
 import React from 'react';
-
 import SingleQuestion from './SingleQuestion';
+
+import classes from './AllQuestions.module.css';
 
 function AllQuestions({ dataArr }) {
   console.log(dataArr);
@@ -13,6 +14,8 @@ function AllQuestions({ dataArr }) {
           answersArr={item.allAnswers}
         />
       ))}
+
+      <button className={classes['check-btn']}>Check answers</button>
     </section>
   );
 }

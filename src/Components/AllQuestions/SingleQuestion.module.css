@@ -1,0 +1,14 @@
+.ul {
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+.li {
+  list-style: none;
+}
+
+.answer-btn {
+  font-size: 1.2rem;
+  padding: 0.25rem 1.2rem;
+}
