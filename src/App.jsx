@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { nanoid } from 'nanoid';
+import StartScreen from './Components/StartScreen/StartScreen';
+import Game from './Components/Game/Game';
 
-const API_URL =
-  'https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=boolean';
+import './global.css';
 
 function App() {
+  const [hasGameStarted, setHasGameStarted] = useState(false);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,15 +15,23 @@ function App() {
     async function getData() {
       try {
         const response = await fetch(
-          'https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=boolean'
+          'https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=multiple'
         );
 
         if (!response.ok) {
           throw new Error('Something went wrong.');
         }
 
-        const actualData = await response.json();
-        setData(actualData);
+        const dataFromApi = await response.json();
+
+        const transformedData = dataFromApi.results.map((item) => ({
+          id: nanoid(),
+          question: item.question,
+          correctAnswer: item.correct_answer,
+          allAnswers: [item.correct_answer, ...item.incorrect_answers],
+        }));
+
+        setData(transformedData);
         setError(null);
       } catch (error) {
         setError(error.message);
@@ -30,14 +41,16 @@ function App() {
     }
 
     getData();
-  }, []);
-
-  console.log(data.results);
+  }, [hasGameStarted]);
 
   return (
-    <>
-      <p>teste</p>
-    </>
+    <main className="wrapper">
+      {!hasGameStarted ? (
+        <StartScreen onStartGame={() => setHasGameStarted(true)} />
+      ) : (
+        <Game />
+      )}
+    </main>
   );
 }
 
