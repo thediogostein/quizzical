@@ -7,7 +7,7 @@ function SingleQuestion({ question, answersArr }) {
   return (
     <article>
       <header>
-        <h2>{decode(question)}</h2>
+        <h2 className={classes.question}>{decode(question)}</h2>
       </header>
       <section>
         <ul className={classes.ul}>
