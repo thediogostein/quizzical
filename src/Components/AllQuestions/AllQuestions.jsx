@@ -3,7 +3,7 @@ import SingleQuestion from './SingleQuestion';
 
 import classes from './AllQuestions.module.css';
 
-function AllQuestions({ questions }) {
+function AllQuestions({ questions, restartGame }) {
   const [inputedAnswers, setInputtedAnswers] = useState([]);
   const [showScore, setShowScore] = useState(false);
 
@@ -17,13 +17,11 @@ function AllQuestions({ questions }) {
     for (let i = 0; i < inputedAnswers.length; i++) {
       if (inputedAnswers[i].questionId === receivedAnswer.questionId) {
         inputedAnswers[i].score = receivedAnswer.score;
-        console.log(inputedAnswers);
         return;
       }
     }
     setInputtedAnswers((prev) => [...prev, receivedAnswer]);
   }
-  console.log(inputedAnswers);
 
   function checkAnswersHandler() {
     setShowScore(true);
@@ -53,7 +51,7 @@ function AllQuestions({ questions }) {
 
       <div>
         {showScore && scoreElement}
-        {showScore && <button>Play again</button>}
+        {showScore && <button onClick={() => restartGame()}>Play again</button>}
         {!showScore && (
           <button className={cssClasses} onClick={checkAnswersHandler}>
             Check answers

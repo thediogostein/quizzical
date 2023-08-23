@@ -29,7 +29,7 @@ const MOCK_DATA = [
 ];
 
 function App() {
-  const [hasGameStarted, setHasGameStarted] = useState(true);
+  const [hasGameStarted, setHasGameStarted] = useState(false);
   const [questions, setQuestions] = useState(MOCK_DATA);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -43,6 +43,10 @@ function App() {
     }
   }
   // console.log(questions);
+
+  function restartGame() {
+    setHasGameStarted(false);
+  }
 
   useEffect(() => {
     async function getData() {
@@ -92,7 +96,7 @@ function App() {
       {!hasGameStarted ? (
         <StartScreen onStartGame={() => setHasGameStarted(true)} />
       ) : (
-        <AllQuestions questions={questions} />
+        <AllQuestions questions={questions} restartGame={restartGame} />
       )}
     </main>
   );
