@@ -5,32 +5,32 @@ import AllQuestions from './Components/AllQuestions/AllQuestions';
 
 import './global.css';
 
-const MOCK_DATA = [
-  {
-    id: 0,
-    questionText: 'Question Text',
-    answerOptions: [
-      { id: 0, answerText: 'answerText', isCorrect: true },
-      { id: 1, answerText: 'answerText', isCorrect: false },
-      { id: 2, answerText: 'answerText', isCorrect: false },
-      { id: 3, answerText: 'answerText', isCorrect: false },
-    ],
-  },
-  {
-    id: 1,
-    questionText: 'Question Text',
-    answerOptions: [
-      { id: 0, answerText: 'answerText', isCorrect: true },
-      { id: 1, answerText: 'answerText', isCorrect: false },
-      { id: 2, answerText: 'answerText', isCorrect: false },
-      { id: 3, answerText: 'answerText', isCorrect: false },
-    ],
-  },
-];
+// const MOCK_DATA = [
+//   {
+//     id: 0,
+//     questionText: 'Question Text',
+//     answerOptions: [
+//       { id: 0, answerText: 'answerText', isCorrect: true },
+//       { id: 1, answerText: 'answerText', isCorrect: false },
+//       { id: 2, answerText: 'answerText', isCorrect: false },
+//       { id: 3, answerText: 'answerText', isCorrect: false },
+//     ],
+//   },
+//   {
+//     id: 1,
+//     questionText: 'Question Text',
+//     answerOptions: [
+//       { id: 0, answerText: 'answerText', isCorrect: true },
+//       { id: 1, answerText: 'answerText', isCorrect: false },
+//       { id: 2, answerText: 'answerText', isCorrect: false },
+//       { id: 3, answerText: 'answerText', isCorrect: false },
+//     ],
+//   },
+// ];
 
 function App() {
   const [hasGameStarted, setHasGameStarted] = useState(false);
-  const [questions, setQuestions] = useState(MOCK_DATA);
+  const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
