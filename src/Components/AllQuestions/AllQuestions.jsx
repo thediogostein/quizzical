@@ -1,28 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SingleQuestion from './SingleQuestion';
 
 import classes from './AllQuestions.module.css';
 
-function AllQuestions({ dataArr }) {
-  // Proximos passos
-  // Colocar um event listener no botão check answers
-  // Ele vai chamar uma funcao
-  // Essa funcao vai conferir se o usuário selecionou uma resposta por pergunta
-  // Vai checar se as respostas estão corretas
-  // Feedback pro usuário
+function AllQuestions({ questions }) {
+  const [inputedAnswers, setInputtedAnswers] = useState([]);
+  const [showScore, setShowScore] = useState(false);
 
-  console.log(dataArr);
+  const score = inputedAnswers.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.score,
+    0
+  );
+
+  function saveAnswer(receivedAnswer) {
+    // check if the answer already exists and if so updates it( this is to avoid duplication)
+    for (let i = 0; i < inputedAnswers.length; i++) {
+      if (inputedAnswers[i].questionId === receivedAnswer.questionId) {
+        inputedAnswers[i].score = receivedAnswer.score;
+        console.log(inputedAnswers);
+        return;
+      }
+    }
+    setInputtedAnswers((prev) => [...prev, receivedAnswer]);
+  }
+  console.log(inputedAnswers);
+
+  function checkAnswersHandler() {
+    setShowScore(true);
+  }
+
+  const scoreElement = (
+    <p>
+      You scored {score} / {inputedAnswers.length} correct answers
+    </p>
+  );
+
+  const cssClasses =
+    inputedAnswers.length === questions.length ? '' : classes.disabled;
+
   return (
     <section>
-      {dataArr.map((item) => (
+      {questions.map((question) => (
         <SingleQuestion
-          key={item.id}
-          question={item.question}
-          answersArr={item.allAnswers}
+          key={question.id}
+          questionId={question.id}
+          question={question.questionText}
+          answerOptions={question.answerOptions}
+          saveAnswer={saveAnswer}
+          checkAnswersHandler={checkAnswersHandler}
         />
       ))}
 
-      <button className={classes['check-btn']}>Check answers</button>
+      <div>
+        {showScore && scoreElement}
+        {showScore && <button>Play again</button>}
+        {!showScore && (
+          <button className={cssClasses} onClick={checkAnswersHandler}>
+            Check answers
+          </button>
+        )}
+      </div>
     </section>
   );
 }

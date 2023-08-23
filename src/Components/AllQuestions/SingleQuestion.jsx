@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { decode } from 'html-entities';
 
 import classes from './SingleQuestion.module.css';
+import AnswerBtn from './AnswerBtn';
 
-function SingleQuestion({ question, answersArr }) {
+function SingleQuestion({
+  question,
+  questionId,
+  answerOptions,
+  checkAnswersHandler,
+  saveAnswer,
+}) {
   return (
     <article>
       <header>
@@ -11,10 +18,17 @@ function SingleQuestion({ question, answersArr }) {
       </header>
       <section>
         <ul className={classes.ul}>
-          {answersArr.map((item) => (
-            <li key={item} className={classes.li}>
-              <button className={classes['answer-btn']}>{decode(item)}</button>
-            </li>
+          {answerOptions.map((answer, index) => (
+            <AnswerBtn
+              key={answer.id}
+              questionId={questionId}
+              answerId={answer.id}
+              text={answer.answerText}
+              isCorrect={answer.isCorrect}
+              index={index}
+              checkAnswersHandler={checkAnswersHandler}
+              saveAnswer={saveAnswer}
+            />
           ))}
         </ul>
       </section>
