@@ -138,47 +138,54 @@ function App() {
     setScore(count);
   }, [questions]);
 
-  // useEffect(() => {
-  //   async function getData() {
-  //     try {
-  //       const response = await fetch(
-  //         'https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=multiple'
-  //       );
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await fetch(
+          'https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=multiple'
+        );
 
-  //       if (!response.ok) {
-  //         throw new Error('Something went wrong.');
-  //       }
+        if (!response.ok) {
+          throw new Error('Something went wrong.');
+        }
 
-  //       const dataFromApi = await response.json();
+        const dataFromApi = await response.json();
 
-  //       const transformedData = dataFromApi.results.map((item) => ({
-  //         id: nanoid(),
-  //         questionText: item.question,
-  //         answerOptions: [
-  //           { id: nanoid(), answerText: item.correct_answer, isCorrect: true },
-  //           ...item.incorrect_answers.map((item) => ({
-  //             id: nanoid(),
-  //             answerText: item,
-  //             isCorrect: false,
-  //           })),
-  //         ],
-  //       }));
+        const transformedData = dataFromApi.results.map((item) => ({
+          id: nanoid(),
+          isAnswered: false,
+          questionText: item.question,
+          answerOptions: [
+            {
+              id: nanoid(),
+              answerText: item.correct_answer,
+              isCorrect: true,
+              isSelected: false,
+            },
+            ...item.incorrect_answers.map((item) => ({
+              id: nanoid(),
+              answerText: item,
+              isCorrect: false,
+              isSelected: false,
+            })),
+          ],
+        }));
 
-  //       // Shuffles the answers array so the correct answer is not always the first one
-  //       transformedData.forEach((item) => shuffleArray(item.answerOptions));
+        // Shuffles the answers array so the correct answer is not always the first one
+        transformedData.forEach((item) => shuffleArray(item.answerOptions));
 
-  //       setQuestions(transformedData);
+        setQuestions(transformedData);
 
-  //       setError(null);
-  //     } catch (error) {
-  //       setError(error.message);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   }
+        setError(null);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-  //   getData();
-  // }, [hasGameStarted]);
+    getData();
+  }, [hasGameStarted]);
 
   return (
     <main className="wrapper">

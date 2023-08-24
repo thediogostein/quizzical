@@ -43,7 +43,6 @@ function AnswerBtn({
       >
         {decode(text)}
       </button>
-      <p>Is correct: {isCorrect && 'ok'}</p>
     </li>
   );
 }
