@@ -21,5 +21,19 @@ body {
 
 button {
   cursor: pointer;
-  font-weight: inherit;
+  font-family: inherit;
+}
+
+.btn {
+  background-color: #4d5b9e;
+  color: #f5f7fb;
+  padding: 0.75rem 2rem;
+  border-radius: 16px;
+  border: none;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 50%;
 }

@@ -183,8 +183,6 @@ function App() {
   return (
     <main className="wrapper">
       {error && <p>{error}</p>}
-      <p>{score}</p>
-
       {!hasGameStarted && (
         <StartScreen onStartGame={() => setHasGameStarted(true)} />
       )}

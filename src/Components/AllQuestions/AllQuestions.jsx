@@ -42,11 +42,21 @@ function AllQuestions({
 
       <div>
         {showScore && scoreElement}
-        {showScore && <button onClick={() => restartGame()}>Play again</button>}
+        {showScore && (
+          <button onClick={() => restartGame()} className="btn">
+            Play again
+          </button>
+        )}
 
-        <button onClick={checkAnswersHandler} className={cssClasses}>
-          Check answers
-        </button>
+        {!showScore && (
+          <button
+            onClick={checkAnswersHandler}
+            className="btn"
+            disabled={!showCheckBtn && true}
+          >
+            Check answers
+          </button>
+        )}
       </div>
     </section>
   );

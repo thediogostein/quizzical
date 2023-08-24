@@ -36,7 +36,11 @@ function AnswerBtn({
 
   return (
     <li className={classes.li}>
-      <button onClick={handleClick} className={cssClasses}>
+      <button
+        onClick={handleClick}
+        className={cssClasses}
+        disabled={showScore && true}
+      >
         {decode(text)}
       </button>
       <p>Is correct: {isCorrect && 'ok'}</p>
