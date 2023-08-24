@@ -3,25 +3,24 @@ import SingleQuestion from './SingleQuestion';
 
 import classes from './AllQuestions.module.css';
 
-function AllQuestions({ questions, saveAnswer, restartGame, showCheckBtn }) {
+function AllQuestions({
+  questions,
+  saveAnswer,
+  restartGame,
+  showCheckBtn,
+  showScore,
+  setShowScore,
+  score,
+}) {
   const [inputedAnswers, setInputtedAnswers] = useState([]);
-  const [showScore, setShowScore] = useState(false);
-
-  const score = inputedAnswers.reduce(
-    (accumulator, currentValue) => accumulator + currentValue.score,
-    0
-  );
 
   function checkAnswersHandler() {
-    setShowScore(true);
-
-    // mostrar qual é a certa
-    // mostrar qual o usuário selecionou
+    setShowScore();
   }
 
   const scoreElement = (
     <p>
-      You scored {score} / {inputedAnswers.length} correct answers
+      You scored {score} / {questions.length} correct answers
     </p>
   );
 
@@ -36,8 +35,8 @@ function AllQuestions({ questions, saveAnswer, restartGame, showCheckBtn }) {
           question={question.questionText}
           answerOptions={question.answerOptions}
           saveAnswer={saveAnswer}
+          showScore={showScore}
           checkAnswersHandler={checkAnswersHandler}
-          inputedAnswers={inputedAnswers}
         />
       ))}
 

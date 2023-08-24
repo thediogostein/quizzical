@@ -10,20 +10,33 @@ function AnswerBtn({
   isCorrect,
   checkAnswersHandler,
   saveAnswer,
-  inputedAnswers,
   selectedAnswerId,
   isSelected,
+  showScore,
 }) {
   function handleClick() {
     saveAnswer(questionId, answerId);
   }
 
+  let cssClasses = classes.unselected;
+
+  if (!showScore) {
+    if (isSelected) {
+      cssClasses = classes.selected;
+    }
+  } else if (showScore) {
+    if (isSelected && !isCorrect) {
+      cssClasses = classes.revealIncorrect;
+    } else if (isSelected && isCorrect) {
+      cssClasses = classes.revealCorrect;
+    } else {
+      cssClasses = classes.revealOther;
+    }
+  }
+
   return (
     <li className={classes.li}>
-      <button
-        onClick={handleClick}
-        style={{ backgroundColor: isSelected ? 'blue' : '' }}
-      >
+      <button onClick={handleClick} className={cssClasses}>
         {decode(text)}
       </button>
       <p>Is correct: {isCorrect && 'ok'}</p>

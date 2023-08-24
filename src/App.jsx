@@ -77,6 +77,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showCheckBtn, setShowCheckBtn] = useState(false);
+  const [showScore, setShowScore] = useState(false);
+  const [score, setScore] = useState(0);
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -86,19 +88,7 @@ function App() {
       array[j] = temp;
     }
   }
-  // console.log(questions);
 
-  /*
-    ***recado para mim mesmo para testar amanhã
-    preciso de um single source of truth
-    salvar na array testes, tendo um boolean que 
-
-    ver MOCK_DATA - adicionei um boolean para mostrar se está selecionado ou não,
-    se der certa devo estrurar a array que vem da api desta maneira, outra possibilidade é adicionar
-  
-  */
-
-  //pega o id da pergunta, para salvar no local certo
   function saveAnswer(questionId, answerId) {
     /*  
         this was tricky,
@@ -124,8 +114,6 @@ function App() {
     setQuestions(updatedQuestions);
   }
 
-  console.log(questions);
-
   function restartGame() {
     setHasGameStarted(false);
   }
@@ -136,6 +124,18 @@ function App() {
     if (areAllAnswered) {
       setShowCheckBtn(true);
     }
+
+    let count = 0;
+
+    for (const question of questions) {
+      for (const answer of question.answerOptions) {
+        if (answer.isCorrect && answer.isSelected) {
+          count += 1;
+          // console.log(count);
+        }
+      }
+    }
+    setScore(count);
   }, [questions]);
 
   // useEffect(() => {
@@ -183,6 +183,7 @@ function App() {
   return (
     <main className="wrapper">
       {error && <p>{error}</p>}
+      <p>{score}</p>
 
       {!hasGameStarted && (
         <StartScreen onStartGame={() => setHasGameStarted(true)} />
@@ -193,6 +194,9 @@ function App() {
           saveAnswer={saveAnswer}
           restartGame={restartGame}
           showCheckBtn={showCheckBtn}
+          showScore={showScore}
+          setShowScore={() => setShowScore(true)}
+          score={score}
         />
       )}
     </main>

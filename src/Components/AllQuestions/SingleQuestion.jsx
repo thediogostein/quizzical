@@ -10,10 +10,8 @@ function SingleQuestion({
   answerOptions,
   checkAnswersHandler,
   saveAnswer,
-  inputedAnswers,
+  showScore,
 }) {
-  const [whichBtnIsSelected, setWhichBtnIsSelected] = useState(null);
-
   return (
     <article>
       <header>
@@ -31,8 +29,8 @@ function SingleQuestion({
               isSelected={answer.isSelected}
               checkAnswersHandler={checkAnswersHandler}
               saveAnswer={saveAnswer}
-              inputedAnswers={inputedAnswers}
               selectedAnswerId={answer.selectedAnswerId}
+              showScore={showScore}
             />
           ))}
         </ul>

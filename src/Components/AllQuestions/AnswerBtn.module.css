@@ -2,10 +2,40 @@
   list-style: none;
 }
 
-.selected {
-  color: red;
+.unselected,
+.selected,
+.revealCorrect,
+.revealIncorrect,
+.revealOther {
+  color: #293264;
+  border-radius: 16px;
+  padding: 0.5rem 1rem;
 }
 
-.teste {
-  color: aliceblue;
+.unselected {
+  border: 1px solid #4d5b9e;
+  background: transparent;
+}
+
+.selected {
+  background-color: #d6dbf5;
+  border: 1px solid #d6dbf5;
+  box-sizing: border-box;
+}
+
+.revealCorrect {
+  background-color: #94d7a2;
+  border: 1px solid #94d7a2;
+}
+
+.revealIncorrect {
+  background-color: #f8bcbc;
+  border: 1px solid #f8bcbc;
+  opacity: 70%;
+}
+
+.revealOther {
+  border: 1px solid #4d5b9e;
+  background: transparent;
+  opacity: 70%;
 }
