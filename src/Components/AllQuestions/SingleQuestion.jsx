@@ -10,7 +10,10 @@ function SingleQuestion({
   answerOptions,
   checkAnswersHandler,
   saveAnswer,
+  inputedAnswers,
 }) {
+  const [whichBtnIsSelected, setWhichBtnIsSelected] = useState(null);
+
   return (
     <article>
       <header>
@@ -18,16 +21,18 @@ function SingleQuestion({
       </header>
       <section>
         <ul className={classes.ul}>
-          {answerOptions.map((answer, index) => (
+          {answerOptions.map((answer) => (
             <AnswerBtn
               key={answer.id}
               questionId={questionId}
               answerId={answer.id}
               text={answer.answerText}
               isCorrect={answer.isCorrect}
-              index={index}
+              isSelected={answer.isSelected}
               checkAnswersHandler={checkAnswersHandler}
               saveAnswer={saveAnswer}
+              inputedAnswers={inputedAnswers}
+              selectedAnswerId={answer.selectedAnswerId}
             />
           ))}
         </ul>

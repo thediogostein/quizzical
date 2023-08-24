@@ -3,7 +3,7 @@ import SingleQuestion from './SingleQuestion';
 
 import classes from './AllQuestions.module.css';
 
-function AllQuestions({ questions, restartGame }) {
+function AllQuestions({ questions, saveAnswer, restartGame, showCheckBtn }) {
   const [inputedAnswers, setInputtedAnswers] = useState([]);
   const [showScore, setShowScore] = useState(false);
 
@@ -12,19 +12,11 @@ function AllQuestions({ questions, restartGame }) {
     0
   );
 
-  function saveAnswer(receivedAnswer) {
-    // check if the answer already exists and if so updates it( this is to avoid duplication)
-    for (let i = 0; i < inputedAnswers.length; i++) {
-      if (inputedAnswers[i].questionId === receivedAnswer.questionId) {
-        inputedAnswers[i].score = receivedAnswer.score;
-        return;
-      }
-    }
-    setInputtedAnswers((prev) => [...prev, receivedAnswer]);
-  }
-
   function checkAnswersHandler() {
     setShowScore(true);
+
+    // mostrar qual é a certa
+    // mostrar qual o usuário selecionou
   }
 
   const scoreElement = (
@@ -33,8 +25,7 @@ function AllQuestions({ questions, restartGame }) {
     </p>
   );
 
-  const cssClasses =
-    inputedAnswers.length === questions.length ? '' : classes.disabled;
+  const cssClasses = showCheckBtn ? '' : classes.disabled;
 
   return (
     <section>
@@ -46,17 +37,17 @@ function AllQuestions({ questions, restartGame }) {
           answerOptions={question.answerOptions}
           saveAnswer={saveAnswer}
           checkAnswersHandler={checkAnswersHandler}
+          inputedAnswers={inputedAnswers}
         />
       ))}
 
       <div>
         {showScore && scoreElement}
         {showScore && <button onClick={() => restartGame()}>Play again</button>}
-        {!showScore && (
-          <button className={cssClasses} onClick={checkAnswersHandler}>
-            Check answers
-          </button>
-        )}
+
+        <button onClick={checkAnswersHandler} className={cssClasses}>
+          Check answers
+        </button>
       </div>
     </section>
   );

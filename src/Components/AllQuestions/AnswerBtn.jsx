@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { decode } from 'html-entities';
 
 import classes from './AnswerBtn.module.css';
@@ -8,31 +8,24 @@ function AnswerBtn({
   answerId,
   text,
   isCorrect,
-  index,
   checkAnswersHandler,
   saveAnswer,
+  inputedAnswers,
+  selectedAnswerId,
+  isSelected,
 }) {
-  const [hasUserScored, setHasUserScored] = useState(null);
-
   function handleClick() {
-    const score = isCorrect ? 1 : 0;
-    const answer = { questionId, score };
-
-    saveAnswer(answer);
-
-    // let score;
-    // if (isCorrect) {
-    //   score = 1;
-    //   checkAnswersHandler(id);
-    // } else {
-    //   score = 0;
-    //   checkAnswersHandler(id);
-    // }
+    saveAnswer(questionId, answerId);
   }
 
   return (
     <li className={classes.li}>
-      <button onClick={handleClick}>{decode(text)}</button>
+      <button
+        onClick={handleClick}
+        style={{ backgroundColor: isSelected ? 'blue' : '' }}
+      >
+        {decode(text)}
+      </button>
       <p>Is correct: {isCorrect && 'ok'}</p>
     </li>
   );
