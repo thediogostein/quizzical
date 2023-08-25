@@ -24,8 +24,6 @@ function AllQuestions({
     </p>
   );
 
-  const cssClasses = isCheckBtnDisabled ? '' : classes.disabled;
-
   return (
     <section>
       {questions.map((question) => (
@@ -51,14 +49,12 @@ function AllQuestions({
         {!showScore && (
           <button
             onClick={checkAnswersHandler}
-            className={cssClasses}
+            className="btn"
             disabled={isCheckBtnDisabled}
           >
             Check answers
           </button>
         )}
-
-        {/* {showCheckBtn && <p>teste</p>} */}
       </div>
     </section>
   );

@@ -9,7 +9,7 @@ import './global.css';
 function App() {
   const [hasGameStarted, setHasGameStarted] = useState(false);
   const [questions, setQuestions] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isCheckBtnDisabled, setIsCheckBtnDisabled] = useState(true);
   const [showScore, setShowScore] = useState(false);
@@ -51,58 +51,62 @@ function App() {
 
   function restartGame() {
     setHasGameStarted(false);
+    setShowScore(false);
+    setScore(0);
+    setIsCheckBtnDisabled(true);
+    getData();
+  }
+  async function getData() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        'https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=multiple'
+      );
+
+      if (!response.ok) {
+        throw new Error(`Something went wrong. ${response.status}`);
+      }
+
+      const dataFromApi = await response.json();
+
+      const transformedData = dataFromApi.results.map((item) => ({
+        id: nanoid(),
+        isAnswered: false,
+        questionText: item.question,
+        answerOptions: [
+          {
+            id: nanoid(),
+            answerText: item.correct_answer,
+            isCorrect: true,
+            isSelected: false,
+          },
+          ...item.incorrect_answers.map((item) => ({
+            id: nanoid(),
+            answerText: item,
+            isCorrect: false,
+            isSelected: false,
+          })),
+        ],
+      }));
+
+      // Shuffles the answers array so the correct answer is not always the first one
+      transformedData.forEach((item) => shuffleArray(item.answerOptions));
+
+      console.log(transformedData);
+
+      setQuestions(transformedData);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setQuestions(null);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
-    async function getData() {
-      try {
-        const response = await fetch(
-          'https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=multiple'
-        );
-
-        if (!response.ok) {
-          throw new Error(`Something went wrong. ${response.status}`);
-        }
-
-        const dataFromApi = await response.json();
-
-        const transformedData = dataFromApi.results.map((item) => ({
-          id: nanoid(),
-          isAnswered: false,
-          questionText: item.question,
-          answerOptions: [
-            {
-              id: nanoid(),
-              answerText: item.correct_answer,
-              isCorrect: true,
-              isSelected: false,
-            },
-            ...item.incorrect_answers.map((item) => ({
-              id: nanoid(),
-              answerText: item,
-              isCorrect: false,
-              isSelected: false,
-            })),
-          ],
-        }));
-
-        // Shuffles the answers array so the correct answer is not always the first one
-        transformedData.forEach((item) => shuffleArray(item.answerOptions));
-
-        console.log(transformedData);
-
-        setQuestions(transformedData);
-        setError(null);
-      } catch (error) {
-        setError(error.message);
-        setQuestions(null);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
     getData();
-  }, [hasGameStarted]);
+  }, []);
 
   useEffect(() => {
     if (questions.length > 0) {

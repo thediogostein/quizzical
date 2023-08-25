@@ -24,11 +24,13 @@ function AnswerBtn({
     if (isSelected) {
       cssClasses = classes.selected;
     }
-  } else if (showScore) {
-    if (isSelected && !isCorrect) {
-      cssClasses = classes.revealIncorrect;
-    } else if (isSelected && isCorrect) {
+  }
+
+  if (showScore) {
+    if (isCorrect) {
       cssClasses = classes.revealCorrect;
+    } else if (isSelected && !isCorrect) {
+      cssClasses = classes.revealIncorrect;
     } else {
       cssClasses = classes.revealOther;
     }
@@ -36,13 +38,10 @@ function AnswerBtn({
 
   return (
     <li className={classes.li}>
-      <button
-        onClick={handleClick}
-        className={cssClasses}
-        disabled={showScore && true}
-      >
+      <button onClick={handleClick} className={cssClasses} disabled={showScore}>
         {decode(text)}
       </button>
+      {isCorrect && <p>OK</p>}
     </li>
   );
 }
