@@ -13,7 +13,7 @@ function SingleQuestion({
   showScore,
 }) {
   return (
-    <article>
+    <article className={classes.article}>
       <header>
         <h2 className={classes.question}>{decode(question)}</h2>
       </header>

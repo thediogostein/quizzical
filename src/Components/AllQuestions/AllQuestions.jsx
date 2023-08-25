@@ -19,13 +19,13 @@ function AllQuestions({
   }
 
   const scoreElement = (
-    <p>
+    <p className={classes.scoreMessage}>
       You scored {score} / {questions.length} correct answers
     </p>
   );
 
   return (
-    <section>
+    <>
       {questions.map((question) => (
         <SingleQuestion
           key={question.id}
@@ -38,7 +38,7 @@ function AllQuestions({
         />
       ))}
 
-      <div>
+      <div className={classes.ctaDiv}>
         {showScore && scoreElement}
         {showScore && (
           <button onClick={() => restartGame()} className="btn">
@@ -56,7 +56,7 @@ function AllQuestions({
           </button>
         )}
       </div>
-    </section>
+    </>
   );
 }
 

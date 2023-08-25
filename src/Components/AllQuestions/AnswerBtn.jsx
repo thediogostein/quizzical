@@ -41,7 +41,7 @@ function AnswerBtn({
       <button onClick={handleClick} className={cssClasses} disabled={showScore}>
         {decode(text)}
       </button>
-      {isCorrect && <p>OK</p>}
+      {/* {isCorrect && <p>OK</p>} */}
     </li>
   );
 }

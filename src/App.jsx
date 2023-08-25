@@ -161,18 +161,8 @@ function App() {
       {!hasGameStarted && (
         <StartScreen onStartGame={() => setHasGameStarted(true)} />
       )}
-      {/* {hasGameStarted && !error && (
-        <AllQuestions
-          questions={questions}
-          saveAnswer={saveAnswer}
-          restartGame={restartGame}
-          isCheckBtnDisabled={isCheckBtnDisabled}
-          showScore={showScore}
-          setShowScore={() => setShowScore(true)}
-          score={score}
-        />
-      )} */}
-      <section>{hasGameStarted && content}</section>
+
+      {hasGameStarted && content}
     </main>
   );
 }
