@@ -1,3 +1,4 @@
+// import { mockData } from './mockData.js';
 import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import StartScreen from './Components/StartScreen/StartScreen';
@@ -5,75 +6,11 @@ import AllQuestions from './Components/AllQuestions/AllQuestions';
 
 import './global.css';
 
-const MOCK_DATA = [
-  {
-    id: 0,
-    isAnswered: false,
-    questionText: 'Question 1',
-
-    answerOptions: [
-      {
-        id: 0,
-        answerText: 'answer1',
-        isCorrect: true,
-        isSelected: false,
-      },
-      {
-        id: 1,
-        answerText: 'answer2',
-        isCorrect: false,
-        isSelected: false,
-      },
-      {
-        id: 2,
-        answerText: 'answer3',
-        isCorrect: false,
-        isSelected: false,
-      },
-      {
-        id: 3,
-        answerText: 'answer4',
-        isCorrect: false,
-        isSelected: false,
-      },
-    ],
-  },
-  {
-    id: 1,
-    isAnswered: false,
-    questionText: 'Question 2',
-    answerOptions: [
-      {
-        id: 0,
-        answerText: 'answer1',
-        isCorrect: true,
-        isSelected: false,
-      },
-      {
-        id: 1,
-        answerText: 'answer2',
-        isCorrect: false,
-        isSelected: false,
-      },
-      {
-        id: 2,
-        answerText: 'answer3',
-        isCorrect: false,
-        isSelected: false,
-      },
-      {
-        id: 3,
-        answerText: 'answer4',
-        isCorrect: false,
-        isSelected: false,
-      },
-    ],
-  },
-];
+console.log(mockData);
 
 function App() {
   const [hasGameStarted, setHasGameStarted] = useState(true);
-  const [questions, setQuestions] = useState(MOCK_DATA);
+  const [questions, setQuestions] = useState(mockData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showCheckBtn, setShowCheckBtn] = useState(false);
