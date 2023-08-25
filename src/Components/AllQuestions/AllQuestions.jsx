@@ -7,12 +7,12 @@ function AllQuestions({
   questions,
   saveAnswer,
   restartGame,
-  showCheckBtn,
+  isCheckBtnDisabled,
   showScore,
   setShowScore,
   score,
 }) {
-  const [inputedAnswers, setInputtedAnswers] = useState([]);
+  // const [inputedAnswers, setInputtedAnswers] = useState([]);
 
   function checkAnswersHandler() {
     setShowScore();
@@ -24,7 +24,7 @@ function AllQuestions({
     </p>
   );
 
-  const cssClasses = showCheckBtn ? '' : classes.disabled;
+  const cssClasses = isCheckBtnDisabled ? '' : classes.disabled;
 
   return (
     <section>
@@ -51,12 +51,14 @@ function AllQuestions({
         {!showScore && (
           <button
             onClick={checkAnswersHandler}
-            className="btn"
-            disabled={!showCheckBtn && true}
+            className={cssClasses}
+            disabled={isCheckBtnDisabled}
           >
             Check answers
           </button>
         )}
+
+        {/* {showCheckBtn && <p>teste</p>} */}
       </div>
     </section>
   );

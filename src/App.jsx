@@ -1,4 +1,4 @@
-// import { mockData } from './mockData.js';
+import { mockData } from './mockData.js';
 import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import StartScreen from './Components/StartScreen/StartScreen';
@@ -6,14 +6,12 @@ import AllQuestions from './Components/AllQuestions/AllQuestions';
 
 import './global.css';
 
-console.log(mockData);
-
 function App() {
-  const [hasGameStarted, setHasGameStarted] = useState(true);
-  const [questions, setQuestions] = useState(mockData);
-  const [isLoading, setIsLoading] = useState(false);
+  const [hasGameStarted, setHasGameStarted] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showCheckBtn, setShowCheckBtn] = useState(false);
+  const [isCheckBtnDisabled, setIsCheckBtnDisabled] = useState(true);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
 
@@ -56,26 +54,6 @@ function App() {
   }
 
   useEffect(() => {
-    const areAllAnswered = questions.every((question) => question.isAnswered);
-
-    if (areAllAnswered) {
-      setShowCheckBtn(true);
-    }
-
-    let count = 0;
-
-    for (const question of questions) {
-      for (const answer of question.answerOptions) {
-        if (answer.isCorrect && answer.isSelected) {
-          count += 1;
-          // console.log(count);
-        }
-      }
-    }
-    setScore(count);
-  }, [questions]);
-
-  useEffect(() => {
     async function getData() {
       try {
         const response = await fetch(
@@ -83,7 +61,7 @@ function App() {
         );
 
         if (!response.ok) {
-          throw new Error('Something went wrong.');
+          throw new Error(`Something went wrong. ${response.status}`);
         }
 
         const dataFromApi = await response.json();
@@ -111,11 +89,13 @@ function App() {
         // Shuffles the answers array so the correct answer is not always the first one
         transformedData.forEach((item) => shuffleArray(item.answerOptions));
 
-        setQuestions(transformedData);
+        console.log(transformedData);
 
+        setQuestions(transformedData);
         setError(null);
       } catch (error) {
         setError(error.message);
+        setQuestions(null);
       } finally {
         setIsLoading(false);
       }
@@ -124,23 +104,71 @@ function App() {
     getData();
   }, [hasGameStarted]);
 
+  useEffect(() => {
+    if (questions.length > 0) {
+      const areAllAnswered = questions.every(
+        (question) => question.isAnswered === true
+      );
+
+      if (areAllAnswered === true) {
+        setIsCheckBtnDisabled(false);
+      }
+
+      let count = 0;
+
+      for (const question of questions) {
+        for (const answer of question.answerOptions) {
+          if (answer.isCorrect && answer.isSelected) {
+            count += 1;
+          }
+        }
+      }
+      setScore(count);
+    }
+  }, [questions]);
+
+  let content = <p>Found no questions.</p>;
+
+  if (hasGameStarted && questions.length > 0) {
+    content = (
+      <AllQuestions
+        questions={questions}
+        saveAnswer={saveAnswer}
+        restartGame={restartGame}
+        isCheckBtnDisabled={isCheckBtnDisabled}
+        showScore={showScore}
+        setShowScore={() => setShowScore(true)}
+        score={score}
+      />
+    );
+  }
+
+  if (error) {
+    content = <p>{error}</p>;
+  }
+
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  }
+
   return (
     <main className="wrapper">
       {error && <p>{error}</p>}
       {!hasGameStarted && (
         <StartScreen onStartGame={() => setHasGameStarted(true)} />
       )}
-      {hasGameStarted && !error && (
+      {/* {hasGameStarted && !error && (
         <AllQuestions
           questions={questions}
           saveAnswer={saveAnswer}
           restartGame={restartGame}
-          showCheckBtn={showCheckBtn}
+          isCheckBtnDisabled={isCheckBtnDisabled}
           showScore={showScore}
           setShowScore={() => setShowScore(true)}
           score={score}
         />
-      )}
+      )} */}
+      <section>{hasGameStarted && content}</section>
     </main>
   );
 }
