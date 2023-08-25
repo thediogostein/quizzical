@@ -8,9 +8,7 @@ function AnswerBtn({
   answerId,
   text,
   isCorrect,
-  checkAnswersHandler,
   saveAnswer,
-  selectedAnswerId,
   isSelected,
   showScore,
 }) {
@@ -41,7 +39,6 @@ function AnswerBtn({
       <button onClick={handleClick} className={cssClasses} disabled={showScore}>
         {decode(text)}
       </button>
-      {/* {isCorrect && <p>OK</p>} */}
     </li>
   );
 }

@@ -8,7 +8,6 @@ function SingleQuestion({
   question,
   questionId,
   answerOptions,
-  checkAnswersHandler,
   saveAnswer,
   showScore,
 }) {
@@ -27,9 +26,7 @@ function SingleQuestion({
               text={answer.answerText}
               isCorrect={answer.isCorrect}
               isSelected={answer.isSelected}
-              checkAnswersHandler={checkAnswersHandler}
               saveAnswer={saveAnswer}
-              selectedAnswerId={answer.selectedAnswerId}
               showScore={showScore}
             />
           ))}
