@@ -92,8 +92,6 @@ function App() {
       // Shuffles the answers array so the correct answer is not always the first one
       transformedData.forEach((item) => shuffleArray(item.answerOptions));
 
-      console.log(transformedData);
-
       setQuestions(transformedData);
       setError(null);
     } catch (error) {
